@@ -3,11 +3,12 @@ export default [
     path: '/user',
     layout: false,
     routes: [
-      { path: '/user/login', component: './User/Login' },
-      { path: '/user/register', component: './User/Register' },
+      {path: '/user/login', component: './User/Login'},
+      {path: '/user/register', component: './User/Register'},
     ],
   },
-  { path: '/', icon: 'home', component: './Index', name: '主页' },
+  {path: '/', icon: 'home', component: './Index', name: '主页'},
+  {path: '/account/center', name: '个人中心', icon: 'UserOutlined', component: './User/UserInfo', hideInMenu: true,},
   {
     path: '/test/file',
     icon: 'home',
@@ -48,8 +49,8 @@ export default [
     name: '管理页',
     access: 'canAdmin',
     routes: [
-      { path: '/admin', redirect: '/admin/user' },
-      { icon: 'user', path: '/admin/user', component: './Admin/User', name: '用户管理' },
+      {path: '/admin', redirect: '/admin/user'},
+      {icon: 'user', path: '/admin/user', component: './Admin/User', name: '用户管理'},
       {
         icon: 'tools',
         path: '/admin/generator',
@@ -58,6 +59,6 @@ export default [
       },
     ],
   },
-  { path: '/', redirect: '/welcome' },
-  { path: '*', layout: false, component: './404' },
+  {path: '/', redirect: '/welcome'},
+  {path: '*', layout: false, component: './404'},
 ];

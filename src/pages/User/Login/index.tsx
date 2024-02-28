@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
-import { userLoginUsingPost } from '@/services/backend/userController';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { LoginForm, ProFormText } from '@ant-design/pro-components';
+import {getCaptchaUsingGet, userEmailLoginUsingPost, userLoginUsingPost} from '@/services/backend/userController';
+import {LockOutlined, MailOutlined, UserOutlined} from '@ant-design/icons';
+import {LoginForm, ProFormCaptcha, ProFormText} from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { Helmet, history, useModel } from '@umijs/max';
 import { message, Tabs } from 'antd';
@@ -47,6 +47,29 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleEmailSubmit = async (values: API.UserEmailLoginRequest) => {
+    try {
+      // 登录
+      const res = await userEmailLoginUsingPost({
+        ...values,
+      });
+
+      const defaultLoginSuccessMessage = '登录成功！';
+      message.success(defaultLoginSuccessMessage);
+      // 保存已登录用户信息
+      setInitialState({
+        ...initialState,
+        currentUser: res.data,
+      });
+      const urlParams = new URL(window.location.href).searchParams;
+      history.push(urlParams.get('redirect') || '/');
+      return;
+    } catch (error) {
+      const defaultLoginFailureMessage = '登录失败，请重试！';
+      message.error(defaultLoginFailureMessage);
+    }
+  };
+
   return (
     <div className={containerClassName}>
       <Helmet>
@@ -72,7 +95,12 @@ const Login: React.FC = () => {
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserLoginRequest);
+            if (type === "account") {
+              await handleSubmit(values as API.UserLoginRequest);
+            }
+            else {
+              await handleEmailSubmit(values as API.UserEmailLoginRequest)
+            }
           }}
         >
           <Tabs
@@ -84,6 +112,10 @@ const Login: React.FC = () => {
                 key: 'account',
                 label: '账户密码登录',
               },
+              {
+                key: 'email',
+                label: '邮箱账号登录',
+              }
             ]}
           />
           {type === 'account' && (
@@ -118,7 +150,59 @@ const Login: React.FC = () => {
               />
             </>
           )}
-
+          {type === 'email' && (
+            <>
+              <ProFormText
+                fieldProps={{
+                  size: 'large',
+                  prefix: <MailOutlined/>,
+                }}
+                name="emailAccount"
+                placeholder={'请输入邮箱账号！'}
+                rules={[
+                  {
+                    required: true,
+                    message: '邮箱账号是必填项！',
+                  },
+                  {
+                    pattern: /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/,
+                    message: '不合法的邮箱账号！',
+                  },
+                ]}
+              />
+              <ProFormCaptcha
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined/>,
+                }}
+                captchaProps={{
+                  size: 'large',
+                }}
+                placeholder={'请输入验证码！'}
+                captchaTextRender={(timing, count) => {
+                  if (timing) {
+                    return `${count} ${'秒后重新获取'}`;
+                  }
+                  return '获取验证码';
+                }}
+                phoneName={"emailAccount"}
+                name="captcha"
+                rules={[
+                  {
+                    required: true,
+                    message: '验证码是必填项！',
+                  },
+                ]}
+                onGetCaptcha={async (emailAccount) => {
+                  const res = await getCaptchaUsingGet({emailAccount})
+                  if (res.data && res.code === 0) {
+                    message.success("验证码发送成功")
+                    return
+                  }
+                }}
+              />
+            </>
+          )}
           <div
             style={{
               marginBottom: 24,

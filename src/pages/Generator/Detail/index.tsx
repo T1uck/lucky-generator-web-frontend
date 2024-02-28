@@ -5,6 +5,7 @@ import {
   downloadGeneratorByIdUsingGet,
   getGeneratorVoByIdUsingGet,
 } from '@/services/backend/generatorController';
+// @ts-ignore
 import { Link, useModel, useParams } from '@@/exports';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';

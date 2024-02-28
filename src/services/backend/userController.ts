@@ -14,12 +14,72 @@ export async function addUserUsingPost(body: API.UserAddRequest, options?: { [ke
   });
 }
 
+/** userBindEmail POST /api/user/bind/login */
+export async function userBindEmailUsingPost(
+  body: API.UserBindEmailRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserVO_>('/api/user/bind/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** userBindPhone POST /api/user/bindPhone */
+export async function userBindPhoneUsingPost(
+  body: API.UserBindPhoneRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserVO_>('/api/user/bindPhone', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** deleteUser POST /api/user/delete */
 export async function deleteUserUsingPost(
   body: API.DeleteRequest,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean_>('/api/user/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** userEmailLogin POST /api/user/email/login */
+export async function userEmailLoginUsingPost(
+  body: API.UserEmailLoginRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserVO_>('/api/user/email/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** userEmailRegister POST /api/user/email/register */
+export async function userEmailRegisterUsingPost(
+  body: API.UserEmailRegisterRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseLong_>('/api/user/email/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -59,6 +119,21 @@ export async function getUserVoByIdUsingGet(
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseUserVO_>('/api/user/get/vo', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** getCaptcha GET /api/user/getCaptcha */
+export async function getCaptchaUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getCaptchaUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/getCaptcha', {
     method: 'GET',
     params: {
       ...params,
@@ -135,6 +210,21 @@ export async function userRegisterUsingPost(
   });
 }
 
+/** userUnBindEmail POST /api/user/unbindEmail */
+export async function userUnBindEmailUsingPost(
+  body: API.UserUnBindEmailRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseUserVO_>('/api/user/unbindEmail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateUser POST /api/user/update */
 export async function updateUserUsingPost(
   body: API.UserUpdateRequest,
@@ -156,6 +246,36 @@ export async function updateMyUserUsingPost(
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean_>('/api/user/update/my', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** updatePassword POST /api/user/update/password */
+export async function updatePasswordUsingPost(
+  body: { originalPassword: any; newPassword: any },
+  options?: { [p: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/update/password', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** updateSecretKey POST /api/user/update/secret_key */
+export async function updateSecretKeyUsingPost(
+  body: API.IdRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/update/secret_key', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

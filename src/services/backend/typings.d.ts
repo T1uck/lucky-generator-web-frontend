@@ -208,6 +208,11 @@ declare namespace API {
     version?: string;
   };
 
+  type getCaptchaUsingGETParams = {
+    /** emailAccount */
+    emailAccount?: string;
+  };
+
   type getGeneratorVOByIdUsingGETParams = {
     /** id */
     id?: string;
@@ -223,9 +228,17 @@ declare namespace API {
     id?: string;
   };
 
-  type LoginUserVO = {
-    createTime?: string;
+  type IdRequest = {
     id?: string;
+  };
+
+  type LoginUserVO = {
+    accessKey?: string;
+    createTime?: string;
+    email?: string;
+    id?: string;
+    phone?: string;
+    secretKey?: string;
     updateTime?: string;
     userAvatar?: string;
     userName?: string;
@@ -328,9 +341,13 @@ declare namespace API {
   };
 
   type User = {
+    accessKey?: string;
     createTime?: string;
+    email?: string;
     id?: string;
     isDelete?: number;
+    phone?: string;
+    secretKey?: string;
     updateTime?: string;
     userAccount?: string;
     userAvatar?: string;
@@ -345,6 +362,27 @@ declare namespace API {
     userAvatar?: string;
     userName?: string;
     userRole?: string;
+  };
+
+  type UserBindEmailRequest = {
+    captcha?: string;
+    emailAccount?: string;
+  };
+
+  type UserBindPhoneRequest = {
+    phone?: string;
+  };
+
+  type UserEmailLoginRequest = {
+    captcha?: string;
+    emailAccount?: string;
+  };
+
+  type UserEmailRegisterRequest = {
+    agreeToAnAgreement?: string;
+    captcha?: string;
+    emailAccount?: string;
+    userName?: string;
   };
 
   type UserLoginRequest = {
@@ -366,13 +404,24 @@ declare namespace API {
   type UserRegisterRequest = {
     checkPassword?: string;
     userAccount?: string;
+    userName?: string;
     userPassword?: string;
+  };
+
+  type UserUnBindEmailRequest = {
+    captcha?: string;
+    emailAccount?: string;
   };
 
   type UserUpdateMyRequest = {
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
+  };
+
+  type UserUpdatePwdRequest = {
+    newPassword?: string;
+    originalPassword?: string;
   };
 
   type UserUpdateRequest = {
@@ -384,8 +433,12 @@ declare namespace API {
   };
 
   type UserVO = {
+    accessKey?: string;
     createTime?: string;
+    email?: string;
     id?: string;
+    phone?: string;
+    secretKey?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;

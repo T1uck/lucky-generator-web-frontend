@@ -4,7 +4,7 @@ import { history, useModel } from '@umijs/max';
 import { Avatar, Button, Space } from 'antd';
 import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
-import React, { useCallback } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { flushSync } from 'react-dom';
 import { Link } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
@@ -46,12 +46,19 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         loginOut();
         return;
       }
-      history.push(`/account/${key}`);
+      if (key === 'center') {
+        history.push(`/account/${key}`);
+        return;
+      }
     },
     [setInitialState],
   );
 
   const { currentUser } = initialState || {};
+
+  useEffect(()=>{
+
+  },[])
 
   if (!currentUser) {
     return (
