@@ -12,6 +12,7 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import RootComment from "@/pages/Generator/Detail/components/RootComment";
 import {getRootCommentsOfGeneratorUsingGet} from "@/services/backend/generatorCommentController";
+import CommentDrawer from "@/pages/Generator/Detail/components/CommentDrawer";
 
 /**
  * 生成器详情页
@@ -21,12 +22,11 @@ const GeneratorDetailPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<API.GeneratorVO>({});
-  const [ rootComments, setRootCommets] = useState<API.RootCommentVo[]>([]);
+  const [ rootComments, setRootComments] = useState<API.RootCommentVo[]>([]);
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState ?? {};
   const my = currentUser?.id === data?.userId;
 
-  const [replyId, setReplyId] = useState("-1")
   /**
    * 加载数据
    */
@@ -41,7 +41,7 @@ const GeneratorDetailPage: React.FC = () => {
       });
       const comments = await getRootCommentsOfGeneratorUsingGet({id})
       if (comments.data && comments.code === 0) {
-        setRootCommets(comments.data);
+        setRootComments(comments.data);
       }
       setData(res.data || {});
     } catch (error: any) {
@@ -160,7 +160,7 @@ const GeneratorDetailPage: React.FC = () => {
             {
               key: 'comment',
               label: '评论',
-              children: <div>{rootComments.map(rootComment => <RootComment key={rootComment.id} replyId={replyId} setReplyId={(newReplyId: any) => setReplyId(newReplyId || "-1")} rootComment={rootComment}/>)}</div>
+              children: <CommentDrawer key={id} generatorId={id || ""} userId={data?.userId || ""}/>
             },
           ]}
         />
