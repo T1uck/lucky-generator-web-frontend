@@ -35,6 +35,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   };
 
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
 
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
@@ -46,15 +47,18 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         loginOut();
         return;
       }
-      if (key === 'center') {
+      if (key === 'settings') {
         history.push(`/account/${key}`);
+        return;
+      }
+      if (key === 'center') {
+        history.push(`/user/${currentUser?.id}`)
         return;
       }
     },
     [setInitialState],
   );
 
-  const { currentUser } = initialState || {};
 
   useEffect(()=>{
 
@@ -73,12 +77,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const menuItems = [
     ...(menu
       ? [
-
-          {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
-          },
           {
             type: 'divider' as const,
           },
@@ -88,6 +86,11 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       key: 'center',
       icon: <UserOutlined />,
       label: '个人中心',
+    },
+    {
+      key: 'settings',
+      icon: <SettingOutlined />,
+      label: '个人设置',
     },
     {
       key: 'logout',

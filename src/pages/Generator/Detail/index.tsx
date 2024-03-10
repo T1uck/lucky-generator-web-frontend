@@ -1,18 +1,17 @@
 import AuthorInfo from '@/pages/Generator/Detail/components/AuthorInfo';
 import FileConfig from '@/pages/Generator/Detail/components/FileConfig';
 import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
-import {
-  downloadGeneratorByIdUsingGet,
-  getGeneratorVoByIdUsingGet,
-} from '@/services/backend/generatorController';
+import {downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet,} from '@/services/backend/generatorController';
 // @ts-ignore
-import { Link, useModel, useParams } from '@@/exports';
-import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-components';
-import { Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography } from 'antd';
-import { saveAs } from 'file-saver';
+import {Link, useModel, useParams} from '@@/exports';
+import {DownloadOutlined, EditOutlined} from '@ant-design/icons';
+import {PageContainer} from '@ant-design/pro-components';
+import {Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography} from 'antd';
+import {saveAs} from 'file-saver';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import RootComment from "@/pages/Generator/Detail/components/RootComment";
+import {getRootCommentsOfGeneratorUsingGet} from "@/services/backend/generatorCommentController";
 
 /**
  * 生成器详情页
@@ -22,10 +21,12 @@ const GeneratorDetailPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<API.GeneratorVO>({});
+  const [ rootComments, setRootCommets] = useState<API.RootCommentVo[]>([]);
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState ?? {};
   const my = currentUser?.id === data?.userId;
 
+  const [replyId, setReplyId] = useState("-1")
   /**
    * 加载数据
    */
@@ -38,6 +39,10 @@ const GeneratorDetailPage: React.FC = () => {
       const res = await getGeneratorVoByIdUsingGet({
         id,
       });
+      const comments = await getRootCommentsOfGeneratorUsingGet({id})
+      if (comments.data && comments.code === 0) {
+        setRootCommets(comments.data);
+      }
       setData(res.data || {});
     } catch (error: any) {
       message.error('获取数据失败，' + error.message);
@@ -151,6 +156,11 @@ const GeneratorDetailPage: React.FC = () => {
               key: 'userInfo',
               label: '作者信息',
               children: <AuthorInfo data={data} />,
+            },
+            {
+              key: 'comment',
+              label: '评论',
+              children: <div>{rootComments.map(rootComment => <RootComment key={rootComment.id} replyId={replyId} setReplyId={(newReplyId: any) => setReplyId(newReplyId || "-1")} rootComment={rootComment}/>)}</div>
             },
           ]}
         />

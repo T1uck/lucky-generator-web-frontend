@@ -8,7 +8,8 @@ export default [
     ],
   },
   {path: '/', icon: 'home', component: './Index', name: '主页'},
-  {path: '/account/center', name: '个人中心', icon: 'UserOutlined', component: './User/UserInfo', hideInMenu: true,},
+  {path: '/account/settings', name: '个人设置', icon: 'SettingOutlined', component: './User/UserInfo', hideInMenu: true,},
+  {path: '/User/:id', name: '个人中心', icon: 'UserOutLined', component: './User/UserCenter', hideInMenu: true,},
   {
     path: '/test/file',
     icon: 'home',

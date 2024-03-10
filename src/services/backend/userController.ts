@@ -257,8 +257,8 @@ export async function updateMyUserUsingPost(
 
 /** updatePassword POST /api/user/update/password */
 export async function updatePasswordUsingPost(
-  body: { originalPassword: any; newPassword: any },
-  options?: { [p: string]: any },
+  body: API.UserUpdatePwdRequest,
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean_>('/api/user/update/password', {
     method: 'POST',

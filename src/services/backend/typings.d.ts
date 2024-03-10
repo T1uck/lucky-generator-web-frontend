@@ -1,13 +1,37 @@
 declare namespace API {
   type BaseResponseBoolean_ = {
     code?: number;
-    data?: boolean;
+    data?: any;
     message?: string;
   };
 
   type BaseResponseGeneratorVO_ = {
     code?: number;
     data?: GeneratorVO;
+    message?: string;
+  };
+
+  type BaseResponseInt_ = {
+    code?: number;
+    data?: number;
+    message?: string;
+  };
+
+  type BaseResponseListChildrenCommentVo_ = {
+    code?: number;
+    data?: ChildrenCommentVo[];
+    message?: string;
+  };
+
+  type BaseResponseListRootCommentVo_ = {
+    code?: number;
+    data?: RootCommentVo[];
+    message?: string;
+  };
+
+  type BaseResponseListStarBookBoolVo_ = {
+    code?: number;
+    data?: StarBookBoolVo[];
     message?: string;
   };
 
@@ -65,6 +89,26 @@ declare namespace API {
     message?: string;
   };
 
+  type ChildrenCommentVo = {
+    content?: string;
+    createTime?: any;
+    fromId?: string;
+    fromUsername?: string;
+    generatorId?: string;
+    id?: string;
+    likeCount?: number;
+    rootId?: string;
+    toCommentId?: string;
+    toId?: string;
+    toUsername?: string;
+    userAvatar?: string;
+  };
+
+  type createStarBookUsingPOSTParams = {
+    /** name */
+    name: string;
+  };
+
   type DeleteRequest = {
     id?: string;
   };
@@ -96,20 +140,26 @@ declare namespace API {
   type Generator = {
     author?: string;
     basePackage?: string;
+    commentCount?: string;
     createTime?: string;
     description?: string;
     distPath?: string;
     fileConfig?: string;
+    hot?: number;
     id?: string;
     isDelete?: number;
+    likeCount?: string;
     modelConfig?: string;
     name?: string;
     picture?: string;
+    score?: number;
+    starCount?: string;
     status?: number;
     tags?: string;
     updateTime?: string;
     userId?: string;
     version?: string;
+    viewCount?: string;
   };
 
   type GeneratorAddRequest = {
@@ -213,9 +263,29 @@ declare namespace API {
     emailAccount?: string;
   };
 
+  type getChildrenOfRootUsingGETParams = {
+    /** id */
+    id?: string;
+  };
+
   type getGeneratorVOByIdUsingGETParams = {
     /** id */
     id?: string;
+  };
+
+  type getRootCommentsOfGeneratorUsingGETParams = {
+    /** id */
+    id?: string;
+  };
+
+  type getStarBooksByIdUsingGETParams = {
+    /** id */
+    id: string;
+  };
+
+  type getStarBooksUsingGETParams = {
+    /** generatorId */
+    generatorId: string;
   };
 
   type getUserByIdUsingGETParams = {
@@ -230,6 +300,16 @@ declare namespace API {
 
   type IdRequest = {
     id?: string;
+  };
+
+  type likeCommentUsingPOSTParams = {
+    /** id */
+    id?: string;
+  };
+
+  type likeGeneratorUsingPOSTParams = {
+    /** id */
+    id: string;
   };
 
   type LoginUserVO = {
@@ -329,6 +409,45 @@ declare namespace API {
     searchCount?: boolean;
     size?: string;
     total?: string;
+  };
+
+  type PostCommentRequest = {
+    content?: string;
+    generatorId?: string;
+    rootId?: string;
+    toCommentId?: string;
+    toId?: string;
+  };
+
+  type RootCommentVo = {
+    content?: string;
+    createTime?: any;
+    fromId?: string;
+    fromUsername?: string;
+    id?: string;
+    likeCount?: number;
+    replyCount?: number;
+    userAvatar?: string;
+  };
+
+  type StarBookBoolVo = {
+    count?: number;
+    id?: string;
+    isContain?: boolean;
+    name?: string;
+  };
+
+  type StarBookQueryRequest = {
+    bookId?: string;
+    current?: string;
+    pageSize?: string;
+    sortField?: string;
+    sortOrder?: string;
+  };
+
+  type starGeneratorUsingPOSTParams = {
+    /** id */
+    id: string;
   };
 
   type testDownloadFileUsingGETParams = {

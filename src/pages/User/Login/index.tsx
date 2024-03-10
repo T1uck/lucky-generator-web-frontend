@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import {getCaptchaUsingGet, userEmailLoginUsingPost, userLoginUsingPost} from '@/services/backend/userController';
+
 import {LockOutlined, MailOutlined, UserOutlined} from '@ant-design/icons';
 import {LoginForm, ProFormCaptcha, ProFormText} from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
@@ -8,6 +8,7 @@ import { message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import Settings from '../../../../config/defaultSettings';
 import {Link} from "react-router-dom";
+import {getCaptchaUsingGet, userEmailLoginUsingPost, userLoginUsingPost} from "@/services/backend/userController";
 
 const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
