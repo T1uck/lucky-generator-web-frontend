@@ -1,4 +1,4 @@
-import {Avatar, Button, Card, Col, Divider, Form, Input, message, Row} from "antd";
+import {Avatar, Button, Col, Divider, Form, Input, message, Row} from "antd";
 import React, {useEffect, useState} from "react";
 import {history, useModel} from "@@/exports";
 import {
@@ -41,7 +41,7 @@ const CommentDrawer: React.FC<CommentDrawerProps> = ({generatorId, userId}) => {
     if (res.code === 0) {
       message.success('发布成功');
       const newRootComment: API.RootCommentVo = {
-        id: res.data,
+        id: "",
         content: data.content,
         fromId: currentUser?.id,
         userAvatar: currentUser?.userAvatar,

@@ -1,5 +1,5 @@
 import {listGeneratorVoByPageFastUsingPost} from '@/services/backend/generatorController';
-import {UserOutlined} from '@ant-design/icons';
+import {LikeOutlined, MessageFilled, UserOutlined,StarOutlined} from '@ant-design/icons';
 import {PageContainer, ProFormSelect, ProFormText, QueryFilter} from '@ant-design/pro-components';
 import {Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography} from 'antd';
 import moment from 'moment';
@@ -66,6 +66,16 @@ const IndexPage: React.FC = () => {
       </div>
     );
   };
+
+  // 点赞，收藏图标
+  const IconText: React.FC<{
+    icon: React.ReactNode;
+    text: React.ReactNode;
+  }> = ({ icon, text }) => (
+    <span>
+      {icon}  {text}
+    </span>
+  );
 
   return (
     <PageContainer title={<></>}>
@@ -182,6 +192,11 @@ const IndexPage: React.FC = () => {
                   <div>
                     <Avatar src={data.user?.userAvatar ?? <UserOutlined />} />
                   </div>
+                </Flex>
+                <Flex gap={"middle"}>
+                  <IconText key="like" icon={<LikeOutlined/>} text={data.likeCount}/>
+                  <IconText key="star" icon={<StarOutlined/>} text={data.starCount}/>
+                  <IconText key="comment" icon={<MessageFilled/>} text={data.commentCount}/>
                 </Flex>
               </Card>
             </Link>

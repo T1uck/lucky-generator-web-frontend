@@ -1,5 +1,5 @@
 import React, {createElement, useState} from 'react';
-import {Avatar, Button, Card, Col, Form, Input, message, Row, Tooltip} from "antd";
+import {Avatar, Button, Col, Form, Input, message, Row, Tooltip} from "antd";
 import {DownOutlined, LikeFilled, LikeOutlined, UpOutlined} from '@ant-design/icons';
 import {Comment} from "@ant-design/compatible";
 import {useModel, useParams} from "@@/exports";

@@ -1,141 +1,98 @@
-import React, {useLayoutEffect, useRef, useState} from 'react';
-import {Card, Menu, MenuProps} from 'antd';
-import BaseView from './components/Base';
-import {ContainerOutlined, DesktopOutlined, PieChartOutlined} from "@ant-design/icons";
-import {useEmotionCss} from "@ant-design/use-emotion-css";
-import SecurityView from './components/Security';
-import BindingView from "@/pages/User/UserInfo/components/Binding";
+import {Card, Col, Row} from 'antd';
+import React, {useEffect, useState} from 'react';
+import styles from './Center.less';
+import {getUserVoByIdUsingGet} from "@/services/backend/userController";
+import Generators from "@/pages/User/UserCenter/components/Generators";
+import {useParams} from "@@/exports";
 
-type MenuItem = Required<MenuProps>['items'][number];
+export type tabKeyType = 'generator' | 'star';
 
-function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group',
-): MenuItem {
-  return {key, icon, children, label, type} as MenuItem;
-}
+const operationTabList = [
+  {
+    key: 'generator',
+    tab: (
+      <span>
+        项目
+      </span>
+    ),
+  },
+  {
+    key: 'star',
+    tab: (
+      <span>
+        收藏
+      </span>
+    ),
+  },
+];
 
-type SettingsStateKeys = 'base' | 'security' | 'binding';
 
-type SettingsState = {
-  mode: 'inline' | 'horizontal';
-  selectKey: SettingsStateKeys;
-};
+const Center: React.FC = () => {
+    const params = useParams();
+    const [tabKey, setTabKey] = useState<tabKeyType>('generator');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [targetUser, setTargetUser] = useState<API.UserVO>();
 
-const Settings: React.FC = () => {
-  const menuMap: Record<string, React.ReactNode> = {
-    base: '基本设置',
-    security: '安全设置',
-    binding: '账号绑定',
-  };
 
-  const [initConfig, setInitConfig] = useState<SettingsState>({
-    mode: 'inline',
-    selectKey: 'base',
-  });
-  const dom = useRef<HTMLDivElement>();
-
-  const resize = () => {
-    requestAnimationFrame(() => {
-      if (!dom.current) {
-        return;
+    const loadData = async () => {
+      setLoading(true)
+      const res = await getUserVoByIdUsingGet({id: params.id});
+      if (res.data && res.code === 0) {
+        setTargetUser(res.data);
       }
-      let mode: 'inline' | 'horizontal' = 'inline';
-      const { offsetWidth } = dom.current;
-      if (dom.current.offsetWidth < 641 && offsetWidth > 400) {
-        mode = 'horizontal';
-      }
-      if (window.innerWidth < 768 && offsetWidth > 400) {
-        mode = 'horizontal';
-      }
-      setInitConfig({ ...initConfig, mode: mode as SettingsState['mode'] });
-    });
-  };
-
-  useLayoutEffect(() => {
-    if (dom.current) {
-      window.addEventListener('resize', resize);
-      resize();
+      setLoading(false)
     }
-    return () => {
-      window.removeEventListener('resize', resize);
+
+    useEffect(() => {
+      loadData();
+    }, [])
+
+    // 渲染tab切换
+    const renderChildrenByTabKey = (tabValue: tabKeyType) => {
+      if (tabValue === 'star') {
+        return <div></div>
+        // return <Projects/>;
+      }
+      if (tabValue === 'generator') {
+        // return <div></div>
+        // @ts-ignore
+        return <Generators currentUser={targetUser}/>;
+      }
+      return null;
     };
-  }, [dom.current]);
 
-  const renderChildren = () => {
-    const { selectKey } = initConfig;
-    switch (selectKey) {
-      case 'base':
-        return <BaseView />;
-      case 'security':
-        return <SecurityView />;
-      case 'binding':
-        return <BindingView />;
-      default:
-        return null;
-    }
-  };
-
-  const items: MenuItem[] = [
-    getItem('基本设置', 'base', <PieChartOutlined />),
-    getItem('安全设置', 'security', <DesktopOutlined />),
-    getItem('账号绑定', 'binding', <ContainerOutlined />),
-  ];
-
-  const mainClass = useEmotionCss(() => {
-    return {
-      display: 'flex',
-      width: '100%',
-      height: '100%',
-      paddingTop: '16px',
-      paddingBottom: '16px',
-      backgroundColor: 'white',
-    }
-  })
-
-  const rightContent = useEmotionCss(() => {
-    return {
-      flex: '1',
-      padding: '8px 40px',
-    }
-  });
-
-  const title = useEmotionCss(() => {
-    return {
-      marginBottom: "12px",
-      fontWeight: 500,
-      fontSize: "20px",
-      lineHeight: "28px"
-    }
-  })
-
-  return (
-    <Card style={{width: 1080, height: 480, margin: '0 auto'}}>
-      <div className={mainClass}
-       ref={(ref) => {
-         if (ref) {
-           dom.current = ref;
-         }
-       }}
-      >
-        <div>
-          <Menu
-            style={{width: 224, height: '100%'}}
-            mode={initConfig.mode}
-            selectedKeys={[initConfig.selectKey]}
-            items={items}
-            onClick={({ key }) => {
-              setInitConfig({
-                ...initConfig,
-                selectKey: key as SettingsStateKeys,
-              });
-            }}
-          />
-        </div>
-        <div className={rightContent}>
-          <div className={title}>{menuMap[initConfig.selectKey]}</div>
-          {renderChildren()}
-        </div>
+    return (
+      <div>
+        <Row gutter={24}>
+          <Col lg={7} md={24}>
+            <Card bordered={false} style={{marginBottom: 24}} loading={loading}>
+              {!loading && targetUser && (
+                <div>
+                  <div className={styles.avatarHolder}>
+                    <img alt="" src={targetUser.userAvatar}/>
+                    <div className={styles.name}>{targetUser.userName}</div>
+                    <div>{targetUser?.userProfile}</div>
+                  </div>
+                </div>
+              )}
+            </Card>
+          </Col>
+          <Col lg={17} md={24}>
+            <Card
+              className={styles.tabsCard}
+              bordered={false}
+              tabList={operationTabList}
+              activeTabKey={tabKey}
+              onTabChange={(_tabKey: string) => {
+                setTabKey(_tabKey as tabKeyType);
+              }}
+            >
+              {renderChildrenByTabKey(tabKey)}
+            </Card>
+          </Col>
+        </Row>
       </div>
-    </Card>
-  );
-};
-export default Settings;
+    );
+  }
+;
+export default Center;

@@ -1,7 +1,7 @@
 declare namespace API {
   type BaseResponseBoolean_ = {
     code?: number;
-    data?: any;
+    data?: boolean;
     message?: string;
   };
 
@@ -95,7 +95,7 @@ declare namespace API {
     fromId?: string;
     fromUsername?: string;
     generatorId?: string;
-    id?: string;
+    id?: any;
     likeCount?: number;
     rootId?: string;
     toCommentId?: string;
@@ -242,20 +242,26 @@ declare namespace API {
   type GeneratorVO = {
     author?: string;
     basePackage?: string;
+    commentCount?: string;
     createTime?: string;
     description?: string;
     distPath?: string;
     fileConfig?: FileConfig;
+    hot?: number;
     id?: string;
+    likeCount?: string;
     modelConfig?: ModelConfig;
     name?: string;
     picture?: string;
+    score?: number;
+    starCount?: string;
     status?: number;
     tags?: string[];
     updateTime?: string;
     user?: UserVO;
     userId?: string;
     version?: string;
+    viewCount?: string;
   };
 
   type getCaptchaUsingGETParams = {
@@ -285,7 +291,7 @@ declare namespace API {
 
   type getStarBooksUsingGETParams = {
     /** generatorId */
-    generatorId: string;
+    generatorId?: string;
   };
 
   type getUserByIdUsingGETParams = {
@@ -309,7 +315,7 @@ declare namespace API {
 
   type likeGeneratorUsingPOSTParams = {
     /** id */
-    id: string;
+    id?: string;
   };
 
   type LoginUserVO = {
@@ -432,7 +438,7 @@ declare namespace API {
 
   type StarBookBoolVo = {
     count?: number;
-    id?: string;
+    id: string;
     isContain?: boolean;
     name?: string;
   };

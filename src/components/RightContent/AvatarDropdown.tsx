@@ -8,12 +8,34 @@ import React, {useCallback, useEffect} from 'react';
 import { flushSync } from 'react-dom';
 import { Link } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
+import Star from "@/components/Star";
+import {useEmotionCss} from "@ant-design/use-emotion-css";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
 };
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
+
+  const actionClassName = useEmotionCss(({ token }) => {
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      height: '48px',
+      marginLeft: 'auto',
+      overflow: 'hidden',
+      padding: '0 12px',
+      gap: '0px',
+      cursor: 'pointer',
+      transition: 'all 0.3s',
+      margin: '0px',
+      borderRadius: token.borderRadius,
+      '&:hover': {
+        backgroundColor: token.colorBgTextHover,
+      },
+    };
+  });
+
   /**
    * 退出登录，并且将当前的 url 保存
    */
@@ -100,23 +122,28 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   ];
 
   return (
-    <HeaderDropdown
-      menu={{
-        selectedKeys: [],
-        onClick: onMenuClick,
-        items: menuItems,
-      }}
-    >
-      <Space>
-        {currentUser?.userAvatar ? (
-          <Avatar size="small" src={currentUser?.userAvatar} />
-        ) : (
-          <Avatar size="small" icon={<UserOutlined />} />
-        )}
-        <span className="anticon">{currentUser?.userName ?? '无名'}</span>
-      </Space>
-    </HeaderDropdown>
+    <>
+      <span className={actionClassName}>
+        <HeaderDropdown
+          menu={{
+            selectedKeys: [],
+            onClick: onMenuClick,
+            items: menuItems,
+          }}
+        >
+        <Space>
+          {currentUser?.userAvatar ? (
+            <Avatar size="small" src={currentUser?.userAvatar} />
+          ) : (
+            <Avatar size="small" icon={<UserOutlined />} />
+          )}
+          <span className="anticon">{currentUser?.userName ?? '无名'}</span>
+        </Space>
+      </HeaderDropdown>
+      </span>
+      <span className={actionClassName}>
+        <Star/>
+      </span>
+    </>
   );
 };
-
-export const AvatarName = () => {};

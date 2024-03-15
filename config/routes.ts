@@ -54,7 +54,7 @@ export default [
       {icon: 'user', path: '/admin/user', component: './Admin/User', name: '用户管理'},
       {
         icon: 'tools',
-        path: '/admin/generator',
+        path: '/admin/Generators',
         component: './Admin/Generator',
         name: '生成器管理',
       },

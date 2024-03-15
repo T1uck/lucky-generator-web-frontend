@@ -4,15 +4,16 @@ import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
 import {downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet,} from '@/services/backend/generatorController';
 // @ts-ignore
 import {Link, useModel, useParams} from '@@/exports';
-import {DownloadOutlined, EditOutlined} from '@ant-design/icons';
+import {DownloadOutlined, EditOutlined, LikeOutlined, StarOutlined} from '@ant-design/icons';
 import {PageContainer} from '@ant-design/pro-components';
 import {Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography} from 'antd';
 import {saveAs} from 'file-saver';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import RootComment from "@/pages/Generator/Detail/components/RootComment";
-import {getRootCommentsOfGeneratorUsingGet} from "@/services/backend/generatorCommentController";
 import CommentDrawer from "@/pages/Generator/Detail/components/CommentDrawer";
+import {likeGeneratorUsingPost} from "@/services/backend/generatorLikeController";
+import StarModal from './components/StarModal/StarModal';
+
 
 /**
  * 生成器详情页
@@ -22,10 +23,13 @@ const GeneratorDetailPage: React.FC = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<API.GeneratorVO>({});
-  const [ rootComments, setRootComments] = useState<API.RootCommentVo[]>([]);
+  const [isLike, setIsLike] = useState<boolean>(false);
+  const [isStar,setIsStar] = useState<boolean>(false)
+  const [starModalVisible, setStarModalVisible] = useState<boolean>(false);
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState ?? {};
   const my = currentUser?.id === data?.userId;
+
 
   /**
    * 加载数据
@@ -39,10 +43,6 @@ const GeneratorDetailPage: React.FC = () => {
       const res = await getGeneratorVoByIdUsingGet({
         id,
       });
-      const comments = await getRootCommentsOfGeneratorUsingGet({id})
-      if (comments.data && comments.code === 0) {
-        setRootComments(comments.data);
-      }
       setData(res.data || {});
     } catch (error: any) {
       message.error('获取数据失败，' + error.message);
@@ -105,6 +105,65 @@ const GeneratorDetailPage: React.FC = () => {
     </Link>
   );
 
+
+  // 点赞功能实现
+  const clickLike =  async () => {
+    if (!currentUser) {
+      message.info("请先登陆！");
+      return;
+    }
+    if (data) {
+      const res = await likeGeneratorUsingPost({id: data.id})
+      if (res.data && res.code === 0) {
+        message.success("点赞成功！")
+        // @ts-ignore
+        setData({...data, likeCount: Number(data.likeCount) + 1})
+        setIsLike(true);
+      }
+      else {
+        message.error("点赞失败！");
+      }
+    }
+  }
+
+  /**
+   * 点赞按钮
+   */
+  const likeButton =  (
+    <Button
+      onClick={clickLike}
+      style={{border: 'none', outline: 'none', cursor: "pointer"}}
+      disabled={isLike}
+    >
+      <span><LikeOutlined /> {data.likeCount}</span>
+    </Button>
+  );
+
+  //点击收藏按钮
+  const starArticle = () => {
+    if(!currentUser){
+      message.info('请先登录');
+      return;
+    }
+    setStarModalVisible(true);
+    setIsStar(true);
+  }
+
+  /**
+   * 收藏按钮
+   */
+  const starButton = (
+    <Button
+      onClick={starArticle}
+      style={{border: 'none', outline: 'none', cursor: "pointer"}}
+    >
+      {isStar ?
+        <span><StarOutlined style={{color: "red"}}/> {data.starCount}</span> :
+        <span><StarOutlined /> {data.starCount}</span>
+      }
+    </Button>
+  )
+  // @ts-ignore
   return (
     <PageContainer title={<></>} loading={loading}>
       <Card>
@@ -128,6 +187,23 @@ const GeneratorDetailPage: React.FC = () => {
               </Link>
               {downloadButton}
               {editButton}
+              {likeButton}
+              {starButton}
+
+              {/*收藏Modal*/}
+              {
+                starModalVisible &&
+                <StarModal
+                  generatorId={data.id || ""}
+                  visible={starModalVisible}
+                  onCancel={()=>setStarModalVisible(false)}
+                  onOver={()=>{
+                    setStarModalVisible(false);
+                    // @ts-ignore
+                    setData({...data, starCount: Number(data.starCount) + 1})
+                  }}
+                />
+              }
             </Space>
           </Col>
           <Col flex="320px">
