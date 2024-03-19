@@ -93,16 +93,9 @@ export async function getGeneratorVoByIdUsingGet(
 }
 
 /** getHot GET /api/generator/list/hot */
-export async function getHotUsingGet(
-  body: API.GeneratorQueryRequest,
-  options?: { [key: string]: any },
-) {
+export async function getHotUsingGet(options?: { [key: string]: any }) {
   return request<API.BaseResponsePageGeneratorVO_>('/api/generator/list/hot', {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
     ...(options || {}),
   });
 }

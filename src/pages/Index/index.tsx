@@ -1,4 +1,4 @@
-import {listGeneratorVoByPageFastUsingPost} from '@/services/backend/generatorController';
+import {getHotUsingGet, listGeneratorVoByPageFastUsingPost} from '@/services/backend/generatorController';
 import {LikeOutlined, MessageFilled, StarOutlined, UserOutlined} from '@ant-design/icons';
 import {PageContainer, ProFormSelect, ProFormText, QueryFilter} from '@ant-design/pro-components';
 import {Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography} from 'antd';
@@ -31,9 +31,14 @@ const IndexPage: React.FC = () => {
   });
 
   const updatePage = async (key: string) => {
-    if (key === "recommend") {
+    if (key !== "recommend") {
+    } else {
       setLoading(true);
-      setSearchParams({current: "1",pageSize: "8", sortField: "hot", sortOrder: "descend"})
+      const res = await getHotUsingGet();
+      if (res.data) {
+        setDataList(res.data.records ?? [])
+        setTotal(Number(res.data.total ?? 0))
+      }
       setLoading(false);
     }
     if (key === "newest") {
