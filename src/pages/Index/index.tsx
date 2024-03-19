@@ -1,5 +1,5 @@
 import {listGeneratorVoByPageFastUsingPost} from '@/services/backend/generatorController';
-import {LikeOutlined, MessageFilled, UserOutlined,StarOutlined} from '@ant-design/icons';
+import {LikeOutlined, MessageFilled, StarOutlined, UserOutlined} from '@ant-design/icons';
 import {PageContainer, ProFormSelect, ProFormText, QueryFilter} from '@ant-design/pro-components';
 import {Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography} from 'antd';
 import moment from 'moment';
@@ -11,7 +11,7 @@ import {Link} from 'umi';
  */
 const DEFAULT_PAGE_PARAMS: PageRequest = {
   current: 1,
-  pageSize: 12,
+  pageSize: 8,
   sortField: 'createTime',
   sortOrder: 'descend',
 };
@@ -30,6 +30,21 @@ const IndexPage: React.FC = () => {
     ...DEFAULT_PAGE_PARAMS,
   });
 
+  const updatePage = async (key: string) => {
+    if (key === "recommend") {
+      setLoading(true);
+      setSearchParams({current: "1",pageSize: "8", sortField: "hot", sortOrder: "descend"})
+      setLoading(false);
+    }
+    if (key === "newest") {
+      setLoading(true);
+      setSearchParams({ current: "1",
+        pageSize: "8",
+        sortField: 'createTime',
+        sortOrder: 'descend',})
+      setLoading(false);
+    }
+  }
   /**
    * 搜索
    */
@@ -117,7 +132,7 @@ const IndexPage: React.FC = () => {
             label: '推荐',
           },
         ]}
-        onChange={() => {}}
+        onChange={updatePage}
       />
       <Card>
         <QueryFilter

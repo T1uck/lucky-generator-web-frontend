@@ -28,7 +28,7 @@ const Generators: React.FC<GeneratorsProps> = ({currentUser}: GeneratorsProps) =
   // 搜索条件
   // @ts-ignore
   const [searchParams,setSearchParams] = useState<API.GeneratorQueryRequest>({
-    ...DEFAULT_PAGE_PARAMS,
+    ...DEFAULT_PAGE_PARAMS
   });
 
   // 初始化数据

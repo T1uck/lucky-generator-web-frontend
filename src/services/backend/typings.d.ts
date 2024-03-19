@@ -91,11 +91,11 @@ declare namespace API {
 
   type ChildrenCommentVo = {
     content?: string;
-    createTime?: any;
+    createTime?: string;
     fromId?: string;
     fromUsername?: string;
     generatorId?: string;
-    id?: any;
+    id?: string;
     likeCount?: number;
     rootId?: string;
     toCommentId?: string;
@@ -291,7 +291,7 @@ declare namespace API {
 
   type getStarBooksUsingGETParams = {
     /** generatorId */
-    generatorId?: string;
+    generatorId: string;
   };
 
   type getUserByIdUsingGETParams = {
@@ -315,7 +315,7 @@ declare namespace API {
 
   type likeGeneratorUsingPOSTParams = {
     /** id */
-    id?: string;
+    id: string;
   };
 
   type LoginUserVO = {
@@ -427,7 +427,7 @@ declare namespace API {
 
   type RootCommentVo = {
     content?: string;
-    createTime?: any;
+    createTime?: string;
     fromId?: string;
     fromUsername?: string;
     id?: string;
@@ -438,7 +438,7 @@ declare namespace API {
 
   type StarBookBoolVo = {
     count?: number;
-    id: string;
+    id?: string;
     isContain?: boolean;
     name?: string;
   };

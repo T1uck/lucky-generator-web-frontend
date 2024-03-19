@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** addGenerator POST /api/Generators/add */
+/** addGenerator POST /api/generator/add */
 export async function addGeneratorUsingPost(
   body: API.GeneratorAddRequest,
   options?: { [key: string]: any },
@@ -17,7 +17,7 @@ export async function addGeneratorUsingPost(
   });
 }
 
-/** cacheGeneratorZip POST /api/Generators/cache/zip */
+/** cacheGeneratorZip POST /api/generator/cache/zip */
 export async function cacheGeneratorZipUsingPost(
   body: API.GeneratorCacheRequest,
   options?: { [key: string]: any },
@@ -32,7 +32,7 @@ export async function cacheGeneratorZipUsingPost(
   });
 }
 
-/** deleteGenerator POST /api/Generators/delete */
+/** deleteGenerator POST /api/generator/delete */
 export async function deleteGeneratorUsingPost(
   body: API.DeleteRequest,
   options?: { [key: string]: any },
@@ -47,7 +47,7 @@ export async function deleteGeneratorUsingPost(
   });
 }
 
-/** downloadGeneratorById GET /api/Generators/download */
+/** downloadGeneratorById GET /api/generator/download */
 export async function downloadGeneratorByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.downloadGeneratorByIdUsingGETParams,
@@ -62,7 +62,7 @@ export async function downloadGeneratorByIdUsingGet(
   });
 }
 
-/** editGenerator POST /api/Generators/edit */
+/** editGenerator POST /api/generator/edit */
 export async function editGeneratorUsingPost(
   body: API.GeneratorEditRequest,
   options?: { [key: string]: any },
@@ -77,7 +77,7 @@ export async function editGeneratorUsingPost(
   });
 }
 
-/** getGeneratorVOById GET /api/Generators/get/vo */
+/** getGeneratorVOById GET /api/generator/get/vo */
 export async function getGeneratorVoByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getGeneratorVOByIdUsingGETParams,
@@ -92,7 +92,22 @@ export async function getGeneratorVoByIdUsingGet(
   });
 }
 
-/** listGeneratorByPage POST /api/Generators/list/page */
+/** getHot GET /api/generator/list/hot */
+export async function getHotUsingGet(
+  body: API.GeneratorQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageGeneratorVO_>('/api/generator/list/hot', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** listGeneratorByPage POST /api/generator/list/page */
 export async function listGeneratorByPageUsingPost(
   body: API.GeneratorQueryRequest,
   options?: { [key: string]: any },
@@ -107,7 +122,7 @@ export async function listGeneratorByPageUsingPost(
   });
 }
 
-/** listGeneratorVOByPage POST /api/Generators/list/page/vo */
+/** listGeneratorVOByPage POST /api/generator/list/page/vo */
 export async function listGeneratorVoByPageUsingPost(
   body: API.GeneratorQueryRequest,
   options?: { [key: string]: any },
@@ -122,7 +137,7 @@ export async function listGeneratorVoByPageUsingPost(
   });
 }
 
-/** listGeneratorVOByPageFast POST /api/Generators/list/page/vo/fast */
+/** listGeneratorVOByPageFast POST /api/generator/list/page/vo/fast */
 export async function listGeneratorVoByPageFastUsingPost(
   body: API.GeneratorQueryRequest,
   options?: { [key: string]: any },
@@ -137,7 +152,7 @@ export async function listGeneratorVoByPageFastUsingPost(
   });
 }
 
-/** makeGenerator POST /api/Generators/make */
+/** makeGenerator POST /api/generator/make */
 export async function makeGeneratorUsingPost(
   body: API.GeneratorMakeRequest,
   options?: { [key: string]: any },
@@ -152,7 +167,7 @@ export async function makeGeneratorUsingPost(
   });
 }
 
-/** listMyGeneratorVOByPage POST /api/Generators/my/list/page/vo */
+/** listMyGeneratorVOByPage POST /api/generator/my/list/page/vo */
 export async function listMyGeneratorVoByPageUsingPost(
   body: API.GeneratorQueryRequest,
   options?: { [key: string]: any },
@@ -167,7 +182,7 @@ export async function listMyGeneratorVoByPageUsingPost(
   });
 }
 
-/** updateGenerator POST /api/Generators/update */
+/** updateGenerator POST /api/generator/update */
 export async function updateGeneratorUsingPost(
   body: API.GeneratorUpdateRequest,
   options?: { [key: string]: any },
@@ -182,7 +197,7 @@ export async function updateGeneratorUsingPost(
   });
 }
 
-/** useGenerator POST /api/Generators/use */
+/** useGenerator POST /api/generator/use */
 export async function useGeneratorUsingPost(
   body: API.GeneratorUseRequest,
   options?: { [key: string]: any },
