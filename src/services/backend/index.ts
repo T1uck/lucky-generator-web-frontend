@@ -7,14 +7,16 @@ import * as generatorCommentController from './generatorCommentController';
 import * as generatorController from './generatorController';
 import * as generatorLikeController from './generatorLikeController';
 import * as generatorStarController from './generatorStarController';
+import * as notificationController from './notificationController';
 import * as starBookController from './starBookController';
 import * as userController from './userController';
 export default {
   generatorCommentController,
   fileController,
-  generatorController,
   generatorLikeController,
+  generatorController,
   generatorStarController,
+  notificationController,
   starBookController,
   userController,
 };

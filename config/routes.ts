@@ -58,8 +58,15 @@ export default [
         component: './Admin/Generator',
         name: '生成器管理',
       },
+      {
+        icon: 'table',
+        path: '/admin/notification',
+        component: './Admin/Notification',
+        name: '动态公告管理',
+      }
     ],
   },
   {path: '/', redirect: '/welcome'},
+  // { path: '/notification',component: './Notification', hideInMenu:true },
   {path: '*', layout: false, component: './404'},
 ];

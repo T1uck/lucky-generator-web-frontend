@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './Center.less';
 import {getUserVoByIdUsingGet} from "@/services/backend/userController";
 import Generators from "@/pages/User/UserCenter/components/Generators";
+// @ts-ignore
 import {useParams} from "@@/exports";
 
 export type tabKeyType = 'generator' | 'star';
@@ -45,7 +46,7 @@ const Center: React.FC = () => {
 
     useEffect(() => {
       loadData();
-    }, [])
+    }, [params.id])
 
     // 渲染tab切换
     const renderChildrenByTabKey = (tabValue: tabKeyType) => {

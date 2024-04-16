@@ -47,6 +47,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseNotificationVO_ = {
+    code?: number;
+    data?: NotificationVO;
+    message?: string;
+  };
+
   type BaseResponsePageGenerator_ = {
     code?: number;
     data?: PageGenerator_;
@@ -56,6 +62,18 @@ declare namespace API {
   type BaseResponsePageGeneratorVO_ = {
     code?: number;
     data?: PageGeneratorVO_;
+    message?: string;
+  };
+
+  type BaseResponsePageNotification_ = {
+    code?: number;
+    data?: PageNotification_;
+    message?: string;
+  };
+
+  type BaseResponsePageNotificationVO_ = {
+    code?: number;
+    data?: PageNotificationVO_;
     message?: string;
   };
 
@@ -207,7 +225,6 @@ declare namespace API {
     distPath?: string;
     id?: string;
     name?: string;
-    notId?: string;
     orTags?: string[];
     pageSize?: string;
     searchText?: string;
@@ -279,6 +296,16 @@ declare namespace API {
     id?: string;
   };
 
+  type getNotificationVOByDomainUsingGETParams = {
+    /** domain */
+    domain: string;
+  };
+
+  type getNotificationVOByIdUsingGETParams = {
+    /** id */
+    id?: string;
+  };
+
   type getRootCommentsOfGeneratorUsingGETParams = {
     /** id */
     id?: string;
@@ -313,6 +340,18 @@ declare namespace API {
     id?: string;
   };
 
+  type likeGeneratorRedisUsingPOSTParams = {
+    createBy?: string;
+    createTime?: string;
+    current?: string;
+    generatorId?: string;
+    id?: string;
+    pageSize?: string;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+  };
+
   type likeGeneratorUsingPOSTParams = {
     /** id */
     id: string;
@@ -338,9 +377,11 @@ declare namespace API {
     createTime?: string;
     description?: string;
     fileConfig?: FileConfig;
+    forcedInteractiveSwitch?: boolean;
     modelConfig?: ModelConfig;
     name?: string;
     version?: string;
+    versionControl?: boolean;
   };
 
   type ModelConfig = {
@@ -358,6 +399,75 @@ declare namespace API {
     groupName?: string;
     models?: ModelInfo[];
     type?: string;
+  };
+
+  type Notification = {
+    content?: string;
+    createTime?: string;
+    domain?: string;
+    endTime?: string;
+    id?: string;
+    isDelete?: number;
+    startTime?: string;
+    status?: number;
+    title?: string;
+    updateTime?: string;
+    userId?: string;
+  };
+
+  type NotificationAddRequest = {
+    content?: string;
+    domain?: string[];
+    endTime?: string;
+    startTime?: string;
+    status?: number;
+    title?: string;
+    userId?: string;
+  };
+
+  type NotificationEditRequest = {
+    content?: string;
+    domain?: string[];
+    endTime?: string;
+    id?: string;
+    startTime?: string;
+    status?: number;
+    title?: string;
+    userId?: string;
+  };
+
+  type NotificationQueryRequest = {
+    content?: string;
+    current?: string;
+    domain?: string[];
+    endTime?: string;
+    id?: string;
+    pageSize?: string;
+    sortField?: string;
+    sortOrder?: string;
+    startTime?: string;
+    status?: number;
+    title?: string;
+    userId?: string;
+  };
+
+  type NotificationUpdateRequest = {
+    content?: string;
+    domain?: string[];
+    endTime?: string;
+    id?: string;
+    startTime?: string;
+    status?: number;
+    title?: string;
+    userId?: string;
+  };
+
+  type NotificationVO = {
+    content?: string;
+    id?: string;
+    isDelete?: number;
+    title?: string;
+    updateTime?: string;
   };
 
   type OrderItem = {
@@ -386,6 +496,32 @@ declare namespace API {
     orders?: OrderItem[];
     pages?: string;
     records?: GeneratorVO[];
+    searchCount?: boolean;
+    size?: string;
+    total?: string;
+  };
+
+  type PageNotification_ = {
+    countId?: string;
+    current?: string;
+    maxLimit?: string;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: string;
+    records?: Notification[];
+    searchCount?: boolean;
+    size?: string;
+    total?: string;
+  };
+
+  type PageNotificationVO_ = {
+    countId?: string;
+    current?: string;
+    maxLimit?: string;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: string;
+    records?: NotificationVO[];
     searchCount?: boolean;
     size?: string;
     total?: string;
@@ -459,6 +595,18 @@ declare namespace API {
   type testDownloadFileUsingGETParams = {
     /** filepath */
     filepath?: string;
+  };
+
+  type unlikeGeneratorRedisUsingPOSTParams = {
+    createBy?: string;
+    createTime?: string;
+    current?: string;
+    generatorId?: string;
+    id?: string;
+    pageSize?: string;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
   };
 
   type uploadFileUsingPOSTParams = {

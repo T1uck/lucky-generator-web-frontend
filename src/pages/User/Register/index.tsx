@@ -4,7 +4,7 @@ import {LockOutlined, MailOutlined, RedditOutlined, UserOutlined} from '@ant-des
 import {LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
 import {useEmotionCss} from '@ant-design/use-emotion-css';
 import {Helmet, history} from '@umijs/max';
-import {message, Tabs} from 'antd';
+import {Alert, message, Tabs} from 'antd';
 import React, {useState} from 'react';
 import Settings from '../../../../config/defaultSettings';
 import {Link} from "react-router-dom";
@@ -112,6 +112,14 @@ const UserRegisterPage: React.FC = () => {
           {type === 'account' && (
             <>
               <ProFormText
+                name="userName"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <RedditOutlined/>,
+                }}
+                placeholder={'请输入昵称'}
+              />
+              <ProFormText
                 name="userAccount"
                 fieldProps={{
                   size: 'large',
@@ -157,6 +165,7 @@ const UserRegisterPage: React.FC = () => {
           )}
           {type === 'email' && (
             <>
+              <Alert message={"邮箱注册后，设置密码默认为luckydaima"}/>
               <ProFormText
                 name="userName"
                 fieldProps={{

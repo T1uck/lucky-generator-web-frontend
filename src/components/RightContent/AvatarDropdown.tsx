@@ -10,6 +10,7 @@ import { Link } from 'umi';
 import HeaderDropdown from '../HeaderDropdown';
 import Star from "@/components/Star";
 import {useEmotionCss} from "@ant-design/use-emotion-css";
+import Message from "@/components/Message";
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -133,13 +134,16 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         >
         <Space>
           {currentUser?.userAvatar ? (
-            <Avatar size="small" src={currentUser?.userAvatar} />
+            <Avatar size="small" src={currentUser?.userAvatar}/>
           ) : (
-            <Avatar size="small" icon={<UserOutlined />} />
+            <Avatar size="small" icon={<UserOutlined/>}/>
           )}
           <span className="anticon">{currentUser?.userName ?? '无名'}</span>
         </Space>
       </HeaderDropdown>
+      </span>
+      <span className={actionClassName}>
+        <Message/>
       </span>
       <span className={actionClassName}>
         <Star/>

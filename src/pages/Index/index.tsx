@@ -4,7 +4,9 @@ import {PageContainer, ProFormSelect, ProFormText, QueryFilter} from '@ant-desig
 import {Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography} from 'antd';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Link} from 'umi';
+// @ts-ignore
+import {Link} from "umi";
+import Notification from "@/components/Notification";
 
 /**
  * 默认分页参数
@@ -67,6 +69,7 @@ const IndexPage: React.FC = () => {
 
   useEffect(() => {
     doSearch();
+    Notification();
   }, [searchParams]);
 
   /**
@@ -98,7 +101,7 @@ const IndexPage: React.FC = () => {
   );
 
   return (
-    <PageContainer title={<></>}>
+    <PageContainer title={<></>} key={"root"}>
       <Flex justify="center">
         <Input.Search
           style={{
@@ -194,6 +197,7 @@ const IndexPage: React.FC = () => {
         }}
         renderItem={(data) => (
           <List.Item>
+            {/* eslint-disable-next-line react/jsx-no-undef */}
             <Link to={`/generator/detail/${data.id}`}>
               <Card hoverable cover={<Image alt={data.name} src={data.picture} />}>
                 <Card.Meta

@@ -34,20 +34,22 @@ const Generators: React.FC<GeneratorsProps> = ({currentUser}: GeneratorsProps) =
   // 初始化数据
   const oldData = async () => {
     setLoading(true);
-    try {
-      const res = await listGeneratorVoByPageUsingPost({...searchParams});
-      setDataList(res.data?.records ?? [] );
-      setTotal(Number(res.data?.total) ?? 0);
-    } catch (error: any) {
-      message.error('获取数据失败，' + error.message);
+    if (currentUser) {
+      try {
+        const res = await listGeneratorVoByPageUsingPost({...searchParams,userId: currentUser.id});
+        setDataList(res.data?.records ?? [] );
+        setTotal(Number(res.data?.total) ?? 0);
+      } catch (error: any) {
+        message.error('获取数据失败，' + error.message);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // 初始化
   useEffect(() => {
     oldData();
-  }, [searchParams]);
+  }, [searchParams,currentUser]);
 
   // 点赞，收藏图标
   const IconText: React.FC<{

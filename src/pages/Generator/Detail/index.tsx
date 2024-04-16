@@ -105,6 +105,20 @@ const GeneratorDetailPage: React.FC = () => {
     </Link>
   );
 
+  /**
+   * 使用按钮
+   */
+  const useButton = () => {
+    if (currentUser) {
+      return (
+        <Link to={`/generator/use/${id}`}>
+          <Button type="primary">立即使用</Button>
+        </Link>
+      )
+    } else {
+      return <Button type={"primary"} disabled>登陆后使用</Button>
+    }
+  }
 
   // 点赞功能实现
   const clickLike =  async () => {
@@ -182,9 +196,7 @@ const GeneratorDetailPage: React.FC = () => {
             <Typography.Paragraph type="secondary">作者：{data.author}</Typography.Paragraph>
             <div style={{ marginBottom: 24 }} />
             <Space size="middle">
-              <Link to={`/generator/use/${id}`}>
-                <Button type="primary">立即使用</Button>
-              </Link>
+              {useButton()}
               {downloadButton}
               {editButton}
               {likeButton}
